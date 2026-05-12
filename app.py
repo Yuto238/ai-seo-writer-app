@@ -1160,15 +1160,25 @@ with tab_image:
 
     if "generated_image" in st.session_state and st.session_state["generated_image"]:
         st.subheader("生成された画像")
-        st.image(st.session_state["generated_image"], use_container_width=True)
 
-        st.download_button(
-            label="🖼️ PNGとしてダウンロード",
-            data=st.session_state["generated_image"],
-            file_name="eyecatch_image.png",
-            mime="image/png",
-            key="image_download",
-        )
+        try:
+            st.image(
+                st.session_state["generated_image"],
+                use_column_width=True,
+            )
+
+            st.download_button(
+                label="🖼️ PNGとしてダウンロード",
+                data=st.session_state["generated_image"],
+                file_name="eyecatch_image.png",
+                mime="image/png",
+                key="image_download",
+            )
+
+        except Exception as e:
+            st.error("画像の表示中にエラーが発生しました。")
+            st.code(str(e))
+            st.info("画像データが壊れているか、Streamlitの表示引数が環境に対応していない可能性があります。")
 
     st.caption(
         "⚠️ 生成画像の商用利用については、OpenAIの利用規約および画像生成モデルのポリシーを必ず確認してください。"
